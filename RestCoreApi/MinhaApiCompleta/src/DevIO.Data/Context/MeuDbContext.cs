@@ -26,7 +26,7 @@ namespace DevIO.Data.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=MinhaApiCore;Trusted_Connection=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;database=MinhaApiCore;Trusted_Connection=True;");
             }
         }
 
