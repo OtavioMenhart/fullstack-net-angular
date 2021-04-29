@@ -4,38 +4,23 @@ using System.Threading;
 using System.Threading.Tasks;
 using DevIO.Business.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace DevIO.Data.Context
 {
     public class MeuDbContext : DbContext
     {
-        public MeuDbContext()
-        {
-
-        }
-
-        public MeuDbContext(DbContextOptions options) : base(options) { }
+        public MeuDbContext(DbContextOptions<MeuDbContext> options) : base(options) { }
 
         public DbSet<Produto> Produtos { get; set; }
         public DbSet<Endereco> Enderecos { get; set; }
         public DbSet<Fornecedor> Fornecedores { get; set; }
-
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;database=MinhaApiCore;Trusted_Connection=True;");
-            }
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var property in modelBuilder.Model.GetEntityTypes()
                 .SelectMany(e => e.GetProperties()
                     .Where(p => p.ClrType == typeof(string))))
-                property.Relational().ColumnType = "varchar(100)";
+                property.SetColumnType("varchar(100)");
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(MeuDbContext).Assembly);
 
